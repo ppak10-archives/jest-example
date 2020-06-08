@@ -4,7 +4,7 @@
  */
 
 // Node Modules
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 
 // Constants
 const STATUS = {
@@ -12,40 +12,23 @@ const STATUS = {
   NORMAL: 'normal',
 };
 
-export default class Link extends Component {
-  constructor(props) {
-    super(props);
+export default function App(props) {
 
-    this._onMouseEnter = this._onMouseEnter.bind(this);
-    this._onMouseLeave = this._onMouseLeave.bind(this);
+  // Hooks
+  const [classString, setClassString] = useState(STATUS.NORMAL);
 
-    this.state = {
-      class: STATUS.NORMAL,
-    };
-  }
+  // Callbacks
+  const handleMouseEnter = () => setClassString(STATUS.HOVERED);
+  const handleMouseLeave = () => setClassString(STATUS.NORMAL);
 
-  _onMouseEnter() {
-    this.setState({
-      class: STATUS.HOVERED,
-    });
-  }
-
-  _onMouseLeave() {
-    this.setState({
-      class: STATUS.NORMAL,
-    });
-  }
-
-  render() {
-    return (
-      <a
-        className={this.state.class}
-        href={this.props.page || '#'}
-        onMouseEnter={this._onMouseEnter}
-        onMouseLeave={this._onMouseLeave}
-      >
-        {this.props.children}
-      </a>
-    );
-  }
+  return (
+    <a
+      className={classString}
+      href={props.page || '#'}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {props.children}
+    </a>
+  );
 }
